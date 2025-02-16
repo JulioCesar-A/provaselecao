@@ -35,3 +35,26 @@ def atualizar_empresa(id_empresa : int, empresa : schemas.EmpresaUpdate, db : Se
 def atualizar_obrigacao(id_empresa : int, id_obrigacao : int, obrigacao : schemas.ObrigacaoAcessoriaUpdate, db : Session = Depends(get_db)):
     dados_obrigacao = obrigacao.model_dump(exclude_unset=True)
     return repositories.atualizar_dados_obrigacao(id_empresa, id_obrigacao, dados_obrigacao, db)
+
+
+
+
+# GETs
+
+@app.get("/empresas/{id_empresa}/obrigacoes/{id_obrigacao}", reponse_model= schemas.ObrigacaoAcessoriaResponse, status_code=200)
+def buscar_obrigacao_por_id(id_empresa : int, id_obrigacao : int, db : Session = Depends(get_db)):
+    obrigacao = repositories.buscar_obrigacao_por_id(id_empresa, id_obrigacao, db)
+    return obrigacao
+
+@app.get("/empresas/{id_empresa}/obrigacoes/{periodicidade}", response_model=List[schemas.ObrigacaoAcessoriaResponse], status_code=200)
+def listar_obrigacoes_por_periodicidade(id_empresa : int, periodicidade : str, db : Session = Depends(get_db)):
+    return repositories.listar_obrigacoes_por_periodicidade(id_empresa, periodicidade, db)
+
+@app.get("/empresas/{id_empresa}", response_model=schemas.EmpresaResponse, status_code=200)
+def buscar_empresa_por_id(id_empresa: int, db: Session = Depends(get_db)):
+    empresa = repositories.buscar_empresa_por_id(id_empresa, db)
+    return empresa
+
+@app.get("/empresas/", response_model=List[schemas.EmpresaResponse], status_code=200)
+def listar_empresas(db: Session = Depends(get_db)):
+    return repositories.listar_empresas(db)

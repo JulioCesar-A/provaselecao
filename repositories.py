@@ -49,3 +49,23 @@ def atualizar_dados_obrigacao(id_empresa : int, id_obrigacao : int, dados_obriga
     db.commit()
     db.refresh(obrigacao)
     return obrigacao
+
+
+
+
+
+def listar_empresas(db : Session):
+    return db.query(models.Empresa).all()
+
+def listar_obrigacoes_por_periodicidade(id : int, periodicidade : str, db : Session):
+    obrigacoes = db.query(models.ObrigacaoAcessoria).filter(models.ObrigacaoAcessoria.empresa_id == id, models.ObrigacaoAcessoria.periodicidade == periodicidade).all()
+
+    return obrigacoes
+
+def buscar_empresa_por_id(id : int, db : Session):
+    return db.query(models.Empresa).filter(models.Empresa.id == id).first()
+
+def buscar_obrigacao_por_id(id_empresa : int, id_obrigacao : int, db : Session):
+    obrigacao = db.query(models.ObrigacaoAcessoria).filter(models.ObrigacaoAcessoria.empresa_id == id_empresa, models.ObrigacaoAcessoria.id == id_obrigacao)
+    return obrigacao
+
