@@ -58,3 +58,16 @@ def buscar_empresa_por_id(id_empresa: int, db: Session = Depends(get_db)):
 @app.get("/empresas/", response_model=List[schemas.EmpresaResponse], status_code=200)
 def listar_empresas(db: Session = Depends(get_db)):
     return repositories.listar_empresas(db)
+
+# DELETEs
+
+@app.delete("/empresas/{id_empresa}", status_code=204)
+def deletar_empresa(id_empresa: int, db: Session = Depends(get_db)):
+    repositories.deletar_empresa(id_empresa, db)
+    return {"message" : "Removido com sucesso"}
+
+
+@app.delete("/empresas/{id_empresa}/obrigacoes/{id_obrigacao}", status_code=204)
+def deletar_obrigacao(id_empresa : int, id_obrigacao : int, db : Session = Depends(get_db)):
+    repositories.deletar_obrigacao(id_empresa, id_obrigacao, db)
+    return {"messagem" : "Removido com sucesso"}
