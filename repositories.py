@@ -29,3 +29,23 @@ def criar_obrigacao(id : int, obrigacao : schemas.ObrigacaoAcessoriaCreate, db :
     db.refresh(nova_obrigacao)
     return nova_obrigacao
 
+
+def atualizar_dados_empresa(id : int, dados_empresa : dict, db : Session):
+    empresa = db.query(models.Empresa).filter(models.Empresa.id == id).first()
+    if empresa:
+        for key, value in dados_empresa.items():
+            if value is not None:
+                setattr(empresa, key, value)
+    db.commit()
+    db.refresh(empresa)
+    return empresa
+
+def atualizar_dados_obrigacao(id_empresa : int, id_obrigacao : int, dados_obrigacao : dict, db : Session):
+    obrigacao = db.query(models.ObrigacaoAcessoria).filter(models.ObrigacaoAcessoria.empresa_id == id_empresa, models.ObrigacaoAcessoria.id == id_obrigacao).first()
+    if obrigacao:
+        for key, value in dados_obrigacao.items():
+            if value is not None:
+                setattr(obrigacao, key, value)
+    db.commit()
+    db.refresh(obrigacao)
+    return obrigacao
