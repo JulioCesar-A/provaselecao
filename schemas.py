@@ -37,6 +37,8 @@ class EmpresaUpdate(BaseModel):
 
 class ObrigacaoAcessoriaResponse(ObrigacaoAcessoriaBase):
     id : int
+    empresa_id : int 
+
     class Config:
         from_attributes = True
 
