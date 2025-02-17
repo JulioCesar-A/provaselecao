@@ -14,7 +14,7 @@ class Empresa (Base):
     email = Column("EMAIL", String)
     telefone = Column("TELEFONE", String)
     
-    obrigacao = relationship("ObrigacaoAcessoria", back_populates="empresa")
+    obrigacoes = relationship("ObrigacaoAcessoria", back_populates="empresa", lazy="joined", cascade="all, delete-orphan")
 
 
 class ObrigacaoAcessoria (Base):
@@ -22,8 +22,8 @@ class ObrigacaoAcessoria (Base):
 
     id = Column("ID_OBRIG", Integer, primary_key=True)
     nome = Column("NOME_OBRIG", String)
-    periodicidade = Column("PERIODO", String)
+    periodicidade = Column("PERIODICIDADE", String)
 
     empresa_id = Column("FK_EMPRESA", Integer, ForeignKey("TB_EMPRESA.ID_EMPRESA"), nullable=False)
     
-    empresa = relationship("Empresa", back_populates="obrigacao")
+    empresa = relationship("Empresa", back_populates="obrigacoes")
