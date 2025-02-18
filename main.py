@@ -114,16 +114,7 @@ def listar_obrigacoes_por_periodicidade(id_empresa : int, periodicidade : str, d
 
 @app.get("/empresas/{id_empresa}", response_model=schemas.EmpresaResponse, status_code=200, summary="Buscar Empresa por ID", description="Recupera uma empresa pelo seu ID")
 def buscar_empresa_por_id(id_empresa: int, db: Session = Depends(get_db)):
-    try:
-        empresa = repositories.buscar_empresa_por_id(id_empresa, db)
-        return empresa
-    except HTTPException as error:
-        raise error
-    except Exception as e:
-        raise HTTPException(
-            status_code=500,
-            detail=f"Erro ao listar obrigações por periodicidade: {str(e)}"
-        )
+    return repositories.buscar_empresa_por_id(id_empresa, db) 
 
 @app.get("/empresas/", response_model=List[schemas.EmpresaResponse], status_code=200, summary="Listar Empresas", description="Recupera uma lista com todas as empresas e suas obrigações")
 def listar_empresas(db: Session = Depends(get_db)):
@@ -136,7 +127,7 @@ def listar_empresas(db: Session = Depends(get_db)):
     except Exception as e:
         raise HTTPException(
             status_code=500,
-            detail=f"Erro ao listar obrigações por periodicidade: {str(e)}"
+            detail=f"Erro ao listar empresas: {str(e)}"
         )
 
 @app.delete("/empresas/{id_empresa}", status_code=204, summary="Deletar Empresa", description="Deleta uma empresa e suas obrigações acessórias pelo ID da empresa")
