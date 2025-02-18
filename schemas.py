@@ -1,4 +1,4 @@
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, EmailStr
 from typing import Optional, List
 
 
@@ -11,7 +11,7 @@ class EmpresaBase(BaseModel):
     nome : str
     cnpj : str = Field(min_length=14, max_length=14)
     endereco : str
-    email : str
+    email : EmailStr
     telefone : str
 
 

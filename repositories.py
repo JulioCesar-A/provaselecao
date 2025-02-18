@@ -187,6 +187,7 @@ def buscar_empresa_por_id(id: int, db: Session):
         empresa = db.query(models.Empresa).filter(models.Empresa.id == id).first()
 
         if not empresa:
+            print("⚠️ Empresa não encontrada!")  # Debug
             raise HTTPException(
                 status_code=404,
                 detail="Empresa não encontrada"
@@ -201,12 +202,6 @@ def buscar_empresa_por_id(id: int, db: Session):
             detail=f"Erro ao buscar empresa: {str(e)}"
         )
 
-    except Exception as e:
-        db.rollback()
-        raise HTTPException(
-            status_code=500,
-            detail=f"Erro inesperado: {str(e)}"
-        )
 
 def buscar_obrigacao_por_id(id_empresa: int, id_obrigacao: int, db: Session):
     try:
